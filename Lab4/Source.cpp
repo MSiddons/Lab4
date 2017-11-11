@@ -109,7 +109,6 @@ int compFact(int &a)
 	else
 		for (int i = a - 1; i > 1; i--)
 			a = a * i;
-	cout << "compFact= " << a << endl;
 	return a;
 }
 
@@ -122,23 +121,64 @@ void exercise4_a()
 	cout << compFact(userIn) << endl;
 }
 
-//Q4b------------------------------------------------------------------------------------------------
-int choose(int &n, int &r)
+//Q4b+c------------------------------------------------------------------------------------------------
+int choose(int n, int r)
 {
 	int a = n - r;
-	return 6 / (2 * 1);
-	//return (compFact(n) / (compFact(r) * compFact(a)));
+	return (compFact(n) / (compFact(r) * compFact(a)));
 }
 
-void exercise4_b()
+void exercise4_c()
 {
 	int n = 0, r = 0;
-	cout << "Enter values for n and r: ";
-	cin >> n, r;
+	cout << "Enter value for n";
+	cin >> n;
+	cout << "Enter value for r";
+	cin >> r;
 	if (r > n)
 		cout << "Those values are the wrong way around, but " << r << " choose " << n << "equals: " << choose(r, n) << endl;
 	else
 		cout << "n choose r equals: " << choose(n, r) << endl;
+}
+
+//Q5------------------------------------------------------------------------------------------------
+void payCalc(vector<double> &a) //unable to return two values so we'll edit the vector the user input is in. Little dirty but works for us.
+{
+	double b, c = 0;
+	if (a[0] <= 40)
+		b = a[0] * a[1];
+	else
+	{
+		b = 40 * a[1];
+		c = (a[0] - 40) * a[2];
+	}
+	a.push_back(b);
+	a.push_back(c);
+}
+
+void exercise5()
+{
+	double hw, sRate, oRate = 0;
+	vector<double> userIn;
+	cout << "Enter number of hours worked: ";
+	cin >> hw;
+	userIn.push_back(hw);
+	cout << "Enter hourly pay (in pounds): ";
+	cin >> sRate;
+	userIn.push_back(sRate);
+	if (hw > 40)
+	{
+		cout << "You did overtime. Enter overtime pay rate (in pounds): ";
+		cin >> oRate;
+	}
+	userIn.push_back(oRate);
+
+	payCalc(userIn);
+	cout << "You will be paid " << userIn[3] << " pounds for ";
+	if (hw <= 40)
+		cout << hw << " hours worked." << endl << endl;
+	else
+		cout << "40 hours standard pay, and " << userIn[4] << " pounds for " << hw - 40 << " hours of overtime for a total of " << userIn[3] + userIn[4] << " pounds." << endl;
 }
 
 //Menu------------------------------------------------------------------------------------------------
@@ -153,7 +193,6 @@ int main()
 		switch (exercise)
 		{
 		case 0:
-			cout << "Bye Bye.";
 			break;
 		case 1:
 			exercise1();
@@ -168,23 +207,18 @@ int main()
 		{
 			while (q4 != '0')
 			{
-				cout << "Which sub excersise? (a-c, 0 to go back): ";
+				cout << "Which sub excersise? (a or c, 0 to go back): ";
 				cin >> q4;
-				//cout << endl;
 				switch (q4)
 				{
 				case '0':
-					cout << "Bye Bye.";
 					break;
 				case 'a':
 					exercise4_a();
 					break;
 				case 'b':
-					exercise4_b();
-					break;/*
-				case 'c':
 					exercise4_c();
-					break;*/
+					break;
 
 				default:
 					cout << "That's not a choice." << endl;
@@ -192,10 +226,10 @@ int main()
 			}
 			break;
 		}
-		/*
+
 		case 5:
 			exercise5();
-			break;
+			break;/*
 		case 6:
 			exercise6();
 			break; */
@@ -203,6 +237,6 @@ int main()
 		default:
 			cout << "Incorrect choice" << endl;
 		}
-		cout << endl;
+		//cout << endl;
 	}
 }
