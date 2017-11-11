@@ -6,10 +6,15 @@
 
 using namespace std;
 
-/* Q1
-double coord(vector<double> a, double i);
+//------------------------------------------------------------------------------------------------
+double coord(vector<double> a, double i)
+{
+	double y;
+	y = a[0] * i + a[1];
+	return y;
+}
 
-int main()
+void exercise1()
 {
 	double userIn = 1;
 	vector<double> a; //vector stores values in the order of m, c, x-start, x-end, interval.
@@ -26,35 +31,9 @@ int main()
 	{
 		cout << setw(2) << i << " " << coord(a, i) << endl;
 	}
-	return 0;
 }
 
-double coord(vector<double> a, double i)
-{
-	double y;
-	y = a[0] * i + a[1];
-	return y;
-}
-*/
-
-/* Q2
-bool correct(int a, int b);
-
-int main()
-{
-	int n, userIn = -1;
-	srand(time(0));
-	n = rand() % 100 + 1; // generate a random number between 1 and 100
-	while (userIn != n)
-	{
-		cout << "I'm thinking of a number between 1 and 100, guess what it is: ";
-		cin >> userIn;
-		if (correct(n, userIn) == true)
-			cout << "That is the correct answer, well done!" << endl;
-	}
-	return 0;
-}
-
+//------------------------------------------------------------------------------------------------
 bool correct(int a, int b)
 {
 	if (a == b)
@@ -70,11 +49,108 @@ bool correct(int a, int b)
 		return false;
 	}
 }
-*/
 
-/* Q3*/
-int main()
+void exercise2()
+{
+	int n, userIn = -1;
+	srand(time(0));
+	n = rand() % 100 + 1; // generate a random number between 1 and 100
+	while (userIn != n)
+	{
+		cout << "I'm thinking of a number between 1 and 100, guess what it is: ";
+		cin >> userIn;
+		if (correct(n, userIn) == true)
+			cout << "That is the correct answer, well done!" << endl;
+	}
+}
+
+//------------------------------------------------------------------------------------------------
+void sort3(int &a, int &b, int &c) // Passing reference to a, b and c. Any calculations are modifying actual values in 'void exercise3()'
+{
+	int d;
+	// for the below explanations, a=1, b=2, c=3
+	if (a >= b && b >= c) // 2 2 1, 3 2 1, 2 1 1, 1 1 1
+			d = c, c = a, a = d;
+	else if (a > b && b < c)	// 3 1 2, 2 1 3 and 2 1 2
+	{
+		if (a > c)
+			d = a, a = b, b = c, c = d;
+		else 
+			d = a, a = b, b = d;
+	}
+	else if (a < b && b > c)	// 2 3 1, 1 3 2 and 1 2 1
+	{
+		if (a > c)
+			d = c, c = b, b = a, a = d;
+		else
+			d = b, b = c, c = d;
+	}
+	// rule not required for 1 2 3, 1 1 2, 1 2 2
+}
+
+void exercise3()
+{
+	int a, b, c;
+	cout << "Enter number 1: ";
+	cin >> a;
+	cout << "Enter number 2: ";
+	cin >> b;
+	cout << "Enter number 3: ";
+	cin >> c;
+	sort3(a, b, c);
+	cout << a << " " << b << " " << c << endl;
+}
+//------------------------------------------------------------------------------------------------
+void compN(int a)
 {
 
-	return 0;
+}
+
+void exercise4()
+{
+
+}
+
+//------------------------------------------------------------------------------------------------
+// Menu
+int main()
+{
+	int exercise = -1;
+	while (exercise != 0)
+	{
+		cout << "Select an exercise number (1-9) or 0 to exit > ";
+		cin >> exercise;
+		cout << endl;
+		switch (exercise)
+		{
+		case 0:
+			cout << "Bye Bye." << endl;
+			break;
+		case 1:
+			exercise1();
+			break;
+		case 2:
+			exercise2();
+			break;
+		case 3:
+			exercise3();
+			break;
+		case 4:
+			exercise4();
+			break;/*
+		case 5:
+			exercise5();
+			break;
+		case 6:
+			exercise6();
+			break;
+		case 7:
+			exercise7();
+			break; */
+
+		default:
+			cout << "Incorrect choice" << endl;
+		}
+		cout << endl;
+	}
 }
