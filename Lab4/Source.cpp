@@ -70,12 +70,12 @@ void sort3(int &a, int &b, int &c) // Passing reference to a, b and c. Any calcu
 	int d;
 	// for the below explanations, a=1, b=2, c=3
 	if (a >= b && b >= c) // 2 2 1, 3 2 1, 2 1 1, 1 1 1
-			d = c, c = a, a = d;
+		d = c, c = a, a = d;
 	else if (a > b && b < c)	// 3 1 2, 2 1 3 and 2 1 2
 	{
 		if (a > c)
 			d = a, a = b, b = c, c = d;
-		else 
+		else
 			d = a, a = b, b = d;
 	}
 	else if (a < b && b > c)	// 2 3 1, 1 3 2 and 1 2 1
@@ -106,7 +106,7 @@ void compN(int a)
 
 }
 
-void exercise4()
+void exercise4_a()
 {
 
 }
@@ -116,9 +116,10 @@ void exercise4()
 int main()
 {
 	int exercise = -1;
+	char q4 = 'z';
 	while (exercise != 0)
 	{
-		cout << "Select an exercise number (1-9) or 0 to exit > ";
+		cout << "Select an exercise number (1-6) or 0 to exit > ";
 		cin >> exercise;
 		cout << endl;
 		switch (exercise)
@@ -136,16 +137,37 @@ int main()
 			exercise3();
 			break;
 		case 4:
-			exercise4();
-			break;/*
+		{
+			while (q4 != 0)
+			{
+				cout << "Which sub excersise? (a-c, 0 to go back): ";
+				cin >> q4;
+				cout << endl;
+
+				switch (q4)
+				{
+				case 0:
+					cout << "Back" << endl;
+					break;
+				case 'a':
+					exercise4_a();
+					break;/*
+				case 'b':
+					exercise4_b();
+					break;
+				case 'c':
+					exercise4_c();
+					break;
+				default:
+					cout << "That's not a choice." << endl;*/
+				}
+			}
+		}/*
 		case 5:
 			exercise5();
 			break;
 		case 6:
 			exercise6();
-			break;
-		case 7:
-			exercise7();
 			break; */
 
 		default:
