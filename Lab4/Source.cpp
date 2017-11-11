@@ -6,7 +6,7 @@
 
 using namespace std;
 
-//------------------------------------------------------------------------------------------------
+//Q1------------------------------------------------------------------------------------------------
 double coord(vector<double> a, double i)
 {
 	double y;
@@ -33,7 +33,7 @@ void exercise1()
 	}
 }
 
-//------------------------------------------------------------------------------------------------
+//Q2------------------------------------------------------------------------------------------------
 bool correct(int a, int b)
 {
 	if (a == b)
@@ -64,7 +64,7 @@ void exercise2()
 	}
 }
 
-//------------------------------------------------------------------------------------------------
+//Q3------------------------------------------------------------------------------------------------
 void sort3(int &a, int &b, int &c) // Passing reference to a, b and c. Any calculations are modifying actual values in 'void exercise3()'
 {
 	int d;
@@ -100,32 +100,60 @@ void exercise3()
 	sort3(a, b, c);
 	cout << a << " " << b << " " << c << endl;
 }
-//------------------------------------------------------------------------------------------------
-void compN(int a)
-{
 
+//Q4a------------------------------------------------------------------------------------------------
+int compFact(int &a)
+{
+	if (a == 0 || a == 1)
+		return 1;
+	else
+		for (int i = a - 1; i > 1; i--)
+			a = a * i;
+	cout << "compFact= " << a << endl;
+	return a;
 }
 
 void exercise4_a()
 {
-
+	int userIn;
+	cout << "Enter the positive integer value for n!: ";
+	cin >> userIn;
+	cout << userIn << "! is ";
+	cout << compFact(userIn) << endl;
 }
 
-//------------------------------------------------------------------------------------------------
-// Menu
+//Q4b------------------------------------------------------------------------------------------------
+int choose(int &n, int &r)
+{
+	int a = n - r;
+	return 6 / (2 * 1);
+	//return (compFact(n) / (compFact(r) * compFact(a)));
+}
+
+void exercise4_b()
+{
+	int n = 0, r = 0;
+	cout << "Enter values for n and r: ";
+	cin >> n, r;
+	if (r > n)
+		cout << "Those values are the wrong way around, but " << r << " choose " << n << "equals: " << choose(r, n) << endl;
+	else
+		cout << "n choose r equals: " << choose(n, r) << endl;
+}
+
+//Menu------------------------------------------------------------------------------------------------
 int main()
 {
 	int exercise = -1;
-	char q4 = 'z';
+	char q4 = '1';
 	while (exercise != 0)
 	{
-		cout << "Select an exercise number (1-6) or 0 to exit > ";
+		cout << "Select an exercise number (1-6) or 0 to exit: ";
 		cin >> exercise;
-		cout << endl;
 		switch (exercise)
 		{
 		case 0:
-			cout << "Bye Bye." << endl;
+			cout << "Bye Bye.";
 			break;
 		case 1:
 			exercise1();
@@ -138,31 +166,33 @@ int main()
 			break;
 		case 4:
 		{
-			while (q4 != 0)
+			while (q4 != '0')
 			{
 				cout << "Which sub excersise? (a-c, 0 to go back): ";
 				cin >> q4;
-				cout << endl;
-
+				//cout << endl;
 				switch (q4)
 				{
-				case 0:
-					cout << "Back" << endl;
+				case '0':
+					cout << "Bye Bye.";
 					break;
 				case 'a':
 					exercise4_a();
-					break;/*
+					break;
 				case 'b':
 					exercise4_b();
-					break;
+					break;/*
 				case 'c':
 					exercise4_c();
-					break;
+					break;*/
+
 				default:
-					cout << "That's not a choice." << endl;*/
+					cout << "That's not a choice." << endl;
 				}
 			}
-		}/*
+			break;
+		}
+		/*
 		case 5:
 			exercise5();
 			break;
