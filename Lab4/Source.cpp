@@ -145,15 +145,15 @@ void exercise4_c()
 void payCalc(vector<double> &a) //unable to return two values so we'll edit the vector the user input is in. Little dirty but works for us.
 {
 	double b, c = 0;
-	if (a[0] <= 40)
-		b = a[0] * a[1];
+	if (a[0] <= 40) // if user worked less than or exactly 40 hours
+		b = a[0] * a[1]; // calculate hours worked * hourly pay rate and store it in variable 'b'
 	else
 	{
-		b = 40 * a[1];
-		c = (a[0] - 40) * a[2];
+		b = 40 * a[1]; //if more than 40 hours worked, multiply the hourly pay rate by 40, store that in variable 'b'
+		c = (a[0] - 40) * a[2]; //then calculate the overtime by multiplying the overtime rate by the hours past 40 which were worked.
 	}
-	a.push_back(b);
-	a.push_back(c);
+	a.push_back(b); // store b...
+	a.push_back(c); // and c in cells in the vector and return to the main function for output.
 }
 
 void exercise5()
@@ -166,21 +166,136 @@ void exercise5()
 	cout << "Enter hourly pay (in pounds): ";
 	cin >> sRate;
 	userIn.push_back(sRate);
-	if (hw > 40)
+	if (hw > 40) // only ask the user to enter overtime rate if they worked overtime.
 	{
 		cout << "You did overtime. Enter overtime pay rate (in pounds): ";
 		cin >> oRate;
 	}
-	userIn.push_back(oRate);
+	userIn.push_back(oRate); // either store the overtime rate or '0' in the vector.
 
-	payCalc(userIn);
-	cout << "You will be paid " << userIn[3] << " pounds for ";
+	payCalc(userIn); // send income details in the vector to the function which will compute the pay and ammend those payment details to the end of the vector.
+	cout << "You will be paid " << userIn[3] << " pounds for "; //standard line not dependant on hours worked.
 	if (hw <= 40)
 		cout << hw << " hours worked." << endl << endl;
 	else
 		cout << "40 hours standard pay, and " << userIn[4] << " pounds for " << hw - 40 << " hours of overtime for a total of " << userIn[3] + userIn[4] << " pounds." << endl;
 }
 
+//Q6------------------------------------------------------------------------------------------------
+void rowCalc(vector<int> &a, vector<int> b, int i) // allow function to edit the current row, reference the row above and know what row we're looking at. 
+{
+	a.clear(); // remove all values from this vector as they're not needed anymore
+	a.push_back(1); // write '1' to the first element in vector row1.
+	int f = 1; // target the second element in the row.
+	while (f <= i - 1) // fill in the elements from element 1 to the second from last element.
+	{
+		a.push_back(b[f-1] + b[f]); // fill the next element with the sum of the two elements 'above' it in the triangle.
+		f++; // move to the next element.
+	}
+	a.push_back(1); // put a 1 in the last element on this vector.
+}
+
+int PascalCalc(int n, int r) // row is n, position in row is r.
+{
+	vector<int> row1{ 1,1 };
+	vector<int> row2{ 1,1 }; // this stops the program from trying to refer to this row early on and crashing when there's no data there.
+	int c;
+	if (r <= 1 && n <= 1)// small piece of code to handle any issues that might come up in row 0 and 1.
+		return 1;
+	for (int i = 1; i <= n; i++) // work out what row you're calculating, starting in row 1 and going up to the value of n.
+	{
+		if (i % 2 != 0) // if we're computing an odd row, use vector row1.
+			rowCalc(row1, row2, i); // we need to send over both vectors to allow row1 to reference data in row2.
+		else // use the row2 vector if we're on an even row.
+			rowCalc(row2, row1, i); // sending over the last row calculated along with the current one for reference.
+	}
+	// we need to find the element we'll report back to the user by targeting the correct array.
+	if (n % 2 == 0) // if the array is even, we know the last vector written is row2.
+		c = row2[r]; // find the 'r'th position in that vector and store the element in c.
+	else
+		c = row1[r]; // same as above but for odd numbers of 'n'.
+	return c; // send the result of n choose r back to the main function.
+}
+
+void exercise6()
+{
+	// this first bit is exactly the same as exercise 4c, if you don't understand this you shouldn't even be here.
+	int n = 0, r = 0;
+	cout << "Enter value for n: ";
+	cin >> n;
+	cout << "Enter value for r: ";
+	cin >> r;
+	if (r > n)
+	{
+		cout << "Those are round the wrong way, I will calculate " << r << " choose " << n << " instead." << endl;
+		cout << r << " choose " << n << " is " << PascalCalc(r, n) << endl;
+	}
+	else
+		cout << n << " choose " << r << " is " << PascalCalc(n, r) << endl;
+}
+//Q6 Special
+void rowCalc2(vector<int> &a, vector<int> b, int i) // allow function to edit the current row, reference the row above and know what row we're looking at. 
+{
+	a.clear(); // remove all values from this vector as they're not needed anymore
+	a.push_back(1); // write '1' to the first element in vector row1.
+	cout << "1 "; // draw that number to the console.
+	int f = 1; // target the second element in the row.
+	while (f <= i - 1) // fill in the elements from element 1 to the second from last element.
+	{
+		a.push_back(b[f - 1] + b[f]); // fill the next element with the sum of the two elements 'above' it in the triangle.
+		cout << a[f] << " "; // draw that number to the console
+		f++; // move to the next element.
+	}
+	a.push_back(1); // put a 1 in the last element on this vector.
+	cout << "1" << endl; // stick a 1 on the end of that line on the console.
+}
+
+int PascalCalc2(int n, int r) // row is n, position in row is r.
+{
+	vector<int> row1{ 1,1 };
+	vector<int> row2{ 1,1 }; // this stops the program from trying to refer to this row early on and crashing when there's no data there.
+	int c;
+	if (r <= 1 && n <= 1)// small piece of code to handle any issues that might come up in row 0 and 1.
+		return 1;
+	cout << "1" << endl; // before we start, draw that first '1'.
+	for (int i = 1; i <= n; i++) // work out what row you're calculating, starting in row 1 and going up to the value of n.
+	{
+		if (i % 2 != 0) // if we're computing an odd row, use vector row1.
+			rowCalc2(row1, row2, i); // we need to send over both vectors to allow row1 to reference data in row2.
+		else // use the row2 vector if we're on an even row.
+			rowCalc2(row2, row1, i); // sending over the last row calculated along with the current one for reference.
+	}
+	// we need to find the element we'll report back to the user by targeting the correct array.
+	if (n % 2 == 0) // if the array is even, we know the last vector written is row2.
+		c = row2[r]; // find the 'r'th position in that vector and store the element in c.
+	else
+		c = row1[r]; // same as above but for odd numbers of 'n'.
+	return c; // send the result of n choose r back to the main function.
+}
+
+void exercise7()
+{
+	// this first bit is exactly the same as exercise 4c, if you don't understand this you shouldn't even be here.
+	int n = 0, r = 0;
+	cout << endl << " --------------------------------" << endl
+		 << " |    Welcome to Q6 Special!    |" << endl
+		 << " |  This is a graphical display |" << endl
+		 << " |     of Pascal's Triangle.    |" << endl
+		 << " |                              |" << endl
+		 << " |           Enjoy!             |" << endl
+		 << " --------------------------------" << endl << endl;
+	cout << "Enter value for n: ";
+	cin >> n;
+	cout << "Enter value for r: ";
+	cin >> r;
+	if (r > n)
+	{
+		cout << "Those are round the wrong way, I will calculate " << r << " choose " << n << " instead." << endl;
+		cout << r << " choose " << n << " is " << PascalCalc2(r, n) << endl;
+	}
+	else
+		cout << n << " choose " << r << " is " << PascalCalc2(n, r) << endl;
+}
 //Menu------------------------------------------------------------------------------------------------
 int main()
 {
@@ -188,7 +303,7 @@ int main()
 	char q4 = '1';
 	while (exercise != 0)
 	{
-		cout << "Select an exercise number (1-6) or 0 to exit: ";
+		cout << "Select an exercise number (1-6), 7 for special or 0 to exit: ";
 		cin >> exercise;
 		switch (exercise)
 		{
@@ -229,10 +344,13 @@ int main()
 
 		case 5:
 			exercise5();
-			break;/*
+			break;
 		case 6:
 			exercise6();
-			break; */
+			break;
+		case 7:
+			exercise7();
+			break;
 
 		default:
 			cout << "Incorrect choice" << endl;
