@@ -233,21 +233,27 @@ void exercise6()
 	else
 		cout << n << " choose " << r << " is " << PascalCalc(n, r) << endl;
 }
-//Q6 Special
-void rowCalc2(vector<int> &a, vector<int> b, int i) // allow function to edit the current row, reference the row above and know what row we're looking at. 
-{
+//Q6 Special------------------------------------------------------------------------------------------------
+void rowCalc2(vector<int> &a, vector<int> b, int i, int n) // allow function to edit the current row, reference the row above, know what row we're looking at and n. 
+{		
+	int w;// this block of code sets how many spaces will be in front of the numbers based on the value of 'n'.
+	if (n <= 11) w = 3; else w = 4; // it's not really worth setting beyond 11 lines since it quickly loses shape higher than that.
+
 	a.clear(); // remove all values from this vector as they're not needed anymore
 	a.push_back(1); // write '1' to the first element in vector row1.
-	cout << "1 "; // draw that number to the console.
+	for (int z = 1; z < n - i+2; z++) // find out how many spaces to draw based on what row we're on
+		cout << "  ";
+	cout << setw(w) << " 1 "; // draw the first number to the console.
 	int f = 1; // target the second element in the row.
 	while (f <= i - 1) // fill in the elements from element 1 to the second from last element.
 	{
 		a.push_back(b[f - 1] + b[f]); // fill the next element with the sum of the two elements 'above' it in the triangle.
-		cout << a[f] << " "; // draw that number to the console
+		cout.precision(3); // only draw to 3 S.F.    ---NOT CURRENTLY WORKING, attempted fixes.---
+		cout << setw(w) << a[f] << " "; // draw the current element to the console
 		f++; // move to the next element.
 	}
 	a.push_back(1); // put a 1 in the last element on this vector.
-	cout << "1" << endl; // stick a 1 on the end of that line on the console.
+	cout << setw(w) << " 1" << endl; // stick a 1 on the end of that line on the console.
 }
 
 int PascalCalc2(int n, int r) // row is n, position in row is r.
@@ -257,13 +263,15 @@ int PascalCalc2(int n, int r) // row is n, position in row is r.
 	int c;
 	if (r <= 1 && n <= 1)// small piece of code to handle any issues that might come up in row 0 and 1.
 		return 1;
-	cout << "1" << endl; // before we start, draw that first '1'.
+	for (int i = 1; i < n+2; i++)// before we start, use n to work out how many double spaces to draw,
+		cout << "  ";
+	cout << " 1" << endl; // then draw the top '1'.
 	for (int i = 1; i <= n; i++) // work out what row you're calculating, starting in row 1 and going up to the value of n.
 	{
 		if (i % 2 != 0) // if we're computing an odd row, use vector row1.
-			rowCalc2(row1, row2, i); // we need to send over both vectors to allow row1 to reference data in row2.
+			rowCalc2(row1, row2, i, n); // we need to send over both vectors to allow row1 to reference data in row2.
 		else // use the row2 vector if we're on an even row.
-			rowCalc2(row2, row1, i); // sending over the last row calculated along with the current one for reference.
+			rowCalc2(row2, row1, i, n); // sending over the last row calculated along with the current one for reference.
 	}
 	// we need to find the element we'll report back to the user by targeting the correct array.
 	if (n % 2 == 0) // if the array is even, we know the last vector written is row2.
@@ -275,7 +283,6 @@ int PascalCalc2(int n, int r) // row is n, position in row is r.
 
 void exercise7()
 {
-	// this first bit is exactly the same as exercise 4c, if you don't understand this you shouldn't even be here.
 	int n = 0, r = 0;
 	cout << endl << " --------------------------------" << endl
 		 << " |    Welcome to Q6 Special!    |" << endl
@@ -290,11 +297,11 @@ void exercise7()
 	cin >> r;
 	if (r > n)
 	{
-		cout << "Those are round the wrong way, I will calculate " << r << " choose " << n << " instead." << endl;
-		cout << r << " choose " << n << " is " << PascalCalc2(r, n) << endl;
+		cout << "Those are round the wrong way, I will calculate " << r << " choose " << n << " instead." << endl << endl;
+		cout << endl << r << " choose " << n << " is " << PascalCalc2(r, n) << endl;
 	}
 	else
-		cout << n << " choose " << r << " is " << PascalCalc2(n, r) << endl;
+		cout << endl << n << " choose " << r << " is " << PascalCalc2(n, r) << endl;
 }
 //Menu------------------------------------------------------------------------------------------------
 int main()
@@ -355,6 +362,5 @@ int main()
 		default:
 			cout << "Incorrect choice" << endl;
 		}
-		//cout << endl;
 	}
 }
